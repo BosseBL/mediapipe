@@ -2,6 +2,7 @@
 #define EXAMPLE_H
 
 #include <string>
+#include <cstdint>
 
 namespace mediapipe {
 

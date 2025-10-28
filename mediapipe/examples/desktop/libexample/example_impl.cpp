@@ -34,7 +34,7 @@ absl::Status ExampleImpl::Init(const std::string& graph)
     MP_RETURN_IF_ERROR(m_graph.Initialize(config));
 
     LOG(INFO) << "Start running the calculator graph.";
-    ASSIGN_OR_RETURN(m_poller, m_graph.AddOutputStreamPoller(kOutputStream));
+    MP_ASSIGN_OR_RETURN(m_poller, m_graph.AddOutputStreamPoller(kOutputStream));
     MP_RETURN_IF_ERROR(m_graph.StartRun({}));
 
     return absl::OkStatus();
@@ -50,7 +50,7 @@ uint8_t* ExampleImpl::Process(uint8_t* data, int width, int height)
     int width_step = width * ImageFrame::ByteDepthForFormat(ImageFormat::SRGB) * ImageFrame::NumberOfChannelsForFormat(ImageFormat::SRGB);
 
     auto input_frame_for_input = absl::make_unique<ImageFrame>(ImageFormat::SRGB, width, height, width_step, 
-                                                                (uint8*)data, ImageFrame::PixelDataDeleter::kNone);
+                                                                (uint8_t*)data, ImageFrame::PixelDataDeleter::kNone);
 
     m_frame_timestamp++;
 
@@ -70,7 +70,7 @@ uint8_t* ExampleImpl::Process(uint8_t* data, int width, int height)
 
     // This could be optimized to not copy but return output_frame.PixelData()
     uint8_t* out_data = new uint8_t[output_bytes];
-    output_frame.CopyToBuffer((uint8*)out_data, output_bytes);
+    output_frame.CopyToBuffer((uint8_t*)out_data, output_bytes);
     return out_data; 
 }
 
